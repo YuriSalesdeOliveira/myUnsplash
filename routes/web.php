@@ -14,4 +14,4 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [Web::class, 'home']);
+Route::get('/{name?}', [Web::class, 'unsplash'])->name('web.unsplash');
