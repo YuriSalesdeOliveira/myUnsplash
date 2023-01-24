@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Models\Photo;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class User extends Model
+class Photo extends Model
 {
     use HasFactory;
 
-    public function photos()
+    public function user()
     {
-        return $this->hasMany(Photo::class);
+        return $this->belongsTo(User::class);
     }
 }

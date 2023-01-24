@@ -3,7 +3,10 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
+use App\Models\Photo;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Storage;
 
 class DatabaseSeeder extends Seeder
 {
@@ -14,11 +17,22 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // \App\Models\User::factory(10)->create();
+        User::factory([ 
+            'folder' => fake()->bothify('?#?#?#?#?#?#?#')
+        ])->count(4)->has(
+            Photo::factory()->count(10)->state(function (array $attributes, User $user) {
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+                // Storage::makeDirectory("public/photo/{$user->folder}");
+
+                $imageUrl = fake()->imageUrl();
+                $imageName = [];
+                parse_str(parse_url($imageUrl, PHP_URL_QUERY), $imageName);
+
+                return [
+                    'name' => $imageName['text'],
+                    'path' => $imageUrl
+                ];
+            })
+        )->create();
     }
 }
